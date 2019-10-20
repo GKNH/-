@@ -37,18 +37,23 @@
     [self printMethodNamesOfClas: object_getClass(self.p2)];
 }
 
+// 输出类的所有的方法的名称
 - (void)printMethodNamesOfClas: (Class)cls {
     unsigned int count;
+    // 获取方法列表
     Method *methodList = class_copyMethodList(cls, &count);
     NSMutableString *methodNames = [NSMutableString string];
     
+    // 遍历方法列表
     for (int i = 0; i < count; i++) {
         Method method = methodList[i];
+        // Method 类型转换为字符串类型
         NSString *methodName = NSStringFromSelector(method_getName(method));
         [methodNames appendString: methodName];
         [methodNames appendString: @", "];
     }
     
+    // 释放copy的
     free(methodList);
     NSLog(@"%@, %@", cls, methodNames);
 }
